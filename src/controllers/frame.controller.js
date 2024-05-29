@@ -9,6 +9,7 @@ const { io } = require("../config/server.config");
 const { Frame } = require("../models/frame.model");
 
 const { default: axiosRetry } = require("axios-retry");
+const { Project } = require("../models/project.model");
 
 axiosRetry(axios, {
   retries: 3, // Number of retry attempts
@@ -54,6 +55,7 @@ class FrameController {
       logger.error(error?.message || "generate frames error");
     }
   }
+
   static async regeneratedFrames(req, res) {
     const response = new ResponseInterceptor(res);
     try {
@@ -88,9 +90,11 @@ class FrameController {
           }.jpeg`
         );
         console.log(responAws, "aws res");
-        await Frame.findByIdAndUpdate(request.frame_id, {
+        const frameRegenerated=await Frame.findByIdAndUpdate(request.frame_id, {
           $push: { framesUrl: responAws },
         });
+        const sceneUpdateTime=await Scene.findByIdAndUpdate(frameRegenerated.scene,{updatedDate:new Date().toISOString()});
+        await Project.findByIdAndUpdate(sceneUpdateTime.project,{updatedDate:new Date().toISOString()});
         return response.ok(responAws);
       } else {
         response.badRequest("no frames found");
@@ -103,6 +107,19 @@ class FrameController {
       );
     }
   }
+
+  static async updateActiveUrl(req,res){
+    const response = new ResponseInterceptor(res);
+    const request = req.body;
+    const isFrameExist = await Frame.findById(request.frame_id);
+    if (isFrameExist) {
+      await Frame.findByIdAndUpdate(request.frame_id,{activeUrl:request.active_id})
+      return response.ok()
+    }else{
+      response.badRequest("no frames found");
+    }
+  }
+
 }
 
 const generateFramesImage = async (
@@ -158,6 +175,7 @@ const generateFramesImage = async (
         genre,
         location,
         framesUrl: [responAws],
+        activeUrl:0,
         scene: sceneId,
       });
 

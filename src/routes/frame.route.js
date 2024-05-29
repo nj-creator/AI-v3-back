@@ -20,4 +20,8 @@ frameRoute.post(
     ]),verifyToken],FrameController.regeneratedFrames
 );
 
+frameRoute.post(
+  "/activeFrame",verifyToken,FrameController.updateActiveUrl
+)
+
 module.exports = { frameRoute };

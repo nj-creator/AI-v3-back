@@ -6,6 +6,7 @@ const FrameSchema = new Schema({
   location: Number,
   colorType: String,
   framesUrl: [String],
+  activeUrl:Number,
   scene: String,
 });
 
