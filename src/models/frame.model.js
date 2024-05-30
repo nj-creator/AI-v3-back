@@ -8,6 +8,7 @@ const FrameSchema = new Schema({
   framesUrl: [String],
   activeUrl:Number,
   scene: String,
+  sequence:Number
 });
 
 const Frame = model("Frame", FrameSchema);

@@ -24,4 +24,8 @@ frameRoute.post(
   "/activeFrame",verifyToken,FrameController.updateActiveUrl
 )
 
+frameRoute.post(
+  "/regenerate_scene",verifyToken,FrameController.regenerateScene
+)
+
 module.exports = { frameRoute };

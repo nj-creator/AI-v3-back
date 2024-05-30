@@ -80,7 +80,7 @@ class FrameController {
         };
         const data = await axios.post(
           "http://k8s-modelser-modelser-19b211bd7a-107069329.ap-south-1.elb.amazonaws.com/inpaint_scene",
-          body
+          body,{ timeout: 900000 }
         );
 
         const responAws = await uploadBase64ImageToS3(
@@ -120,6 +120,28 @@ class FrameController {
     }
   }
 
+  static async regenerateScene(req,res){
+    const response=new ResponseInterceptor(res);
+    const request=req.body;
+    console.log(request);
+    try {
+      const body={
+      prompt:request.data,
+      parameters:{
+        positive_prompt:"",
+        negative_prompt:
+        "Watermark, Text, censored, deformed, bad anatomy, disfigured, poorly drawn face, mutated, extra limb, ugly, poorly drawn hands, missing limb, floating limbs, disconnected limbs, disconnected head, malformed hands, long neck, mutated hands and fingers, bad hands, missing fingers, cropped, worst quality, low quality, mutation, poorly drawn, huge calf, bad hands, fused hand, missing hand, disappearing arms, disappearing thigh, disappearing calf, disappearing legs, missing fingers, fused fingers, abnormal eye proportion, Abnormal hands, abnormal legs, abnormal feet, abnormal fingers, three hands, three legs, three fingers, three feet, fused face, cloned face, worst face, extra eyes, 2 girl, amputation, cartoon, CG, 3D, unreal, animated.",
+        hieght:1024,
+        width:1024
+      }
+      }
+      const data=await axios.post("http://k8s-modelser-modelser-19b211bd7a-107069329.ap-south-1.elb.amazonaws.com/regenerate_scene",body,{ timeout: 900000 })
+      console.log(data);
+    } catch (error) {
+      response.badRequest("please try after sometime.")
+      console.log(error);
+    }
+  }
 }
 
 const generateFramesImage = async (
@@ -137,6 +159,7 @@ const generateFramesImage = async (
   const user = await User.findById(userId);
 
   let indexNumber = 0;
+  let sequence=0
 
   for (const element of sceneExist.response) {
     try {
@@ -177,8 +200,9 @@ const generateFramesImage = async (
         framesUrl: [responAws],
         activeUrl:0,
         scene: sceneId,
+        sequence:sequence
       });
-
+      sequence+=1;
       io.to(user.socketId).emit("frameGenerated", generatedFrame);
 
       if (indexNumber === sceneExist.response.length) {

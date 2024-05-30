@@ -8,7 +8,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1624.0",
+    "aws-sdk": "^2.1630.0",
     "axios": "^1.7.1",
     "axios-retry": "^4.3.0",
     "compression": "^1.7.4",
@@ -23,7 +23,8 @@
     "mongoose": "^8.4.0",
     "multer": "^1.4.5-lts.1",
     "socket.io": "^4.7.5",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "winston-cloudwatch": "^6.3.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
