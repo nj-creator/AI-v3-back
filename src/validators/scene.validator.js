@@ -5,7 +5,7 @@ class SceneValidator {
     return Joi.object({
       title: Joi.string().required(),
       script: Joi.string().required(),
-      genre: Joi.string().required(),
+      genre: Joi.string().allow(""),
       location: Joi.string().allow(""),
       framesNumber: Joi.number().required(),
       colorType: Joi.string().required(),

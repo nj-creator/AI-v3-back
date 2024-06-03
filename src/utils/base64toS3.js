@@ -7,10 +7,8 @@ const {
 
 AWS.config.update({
   accessKeyId: AWS_ACCESS_KEY_ID,
-  credentials:{
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region: AWS_LOCATION,
-  }
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  region: AWS_LOCATION,
 });
 
 const s3 = new AWS.S3();

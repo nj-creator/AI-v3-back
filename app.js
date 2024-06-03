@@ -23,7 +23,11 @@ class App {
 
     app.use(
       cors({
-        origin: ["http://localhost:5173", "https://immersfy-v3.vercel.app"],
+        origin: [
+          "http://localhost:5173",
+          "https://immersfy-v3.vercel.app",
+          "https://beta.immersfy.com",
+        ],
         credentials: true,
       })
     );

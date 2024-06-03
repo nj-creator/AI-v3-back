@@ -2,7 +2,7 @@ const http = require("http");
 const express = require("express");
 
 const socketIO = require("socket.io");
-const { logger, loggerTest } = require("./logger.config");
+const { logger } = require("./logger.config");
 const { User } = require("../models/user.model");
 class Server {
   #app;
@@ -28,7 +28,7 @@ class Server {
 
     this.#io.on("connection", (socket) => {
       logger.info(`socket connected with socketId: ${socket.id}`);
-      loggerTest.info({time:new Date().toISOString(),name:"connection",levelName:"INFO",request_id:"124",message:"connected"})
+      // loggerTest.info({time:new Date().toISOString(),name:"connection",levelName:"INFO",request_id:"124",message:"connected"})
 
       socket.on("newUser", async (userId) => {
         try {

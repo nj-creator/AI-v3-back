@@ -4,6 +4,13 @@ const { Scene } = require("../models/scene.model");
 const { Character } = require("../models/character.model");
 const { logger } = require("../config/logger.config");
 const { Frame } = require("../models/frame.model");
+const { Project } = require("../models/project.model");
+const { default: axiosRetry } = require("axios-retry");
+
+axiosRetry(axios, {
+  retries: 3, // Number of retry attempts
+  retryDelay: axiosRetry.exponentialDelay, // Exponential backoff delay between retries
+});
 
 class SceneController {
   static async createScene(req, res) {
@@ -42,6 +49,10 @@ class SceneController {
         updatedDate: new Date().toISOString(),
         project: projectId,
         response: data?.data?.scenes,
+      });
+
+      await Project.findByIdAndUpdate(projectId, {
+        updatedDate: new Date().toISOString(),
       });
 
       if (data?.data?.characters.length > 0) {

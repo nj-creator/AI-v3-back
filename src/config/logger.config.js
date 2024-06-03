@@ -1,6 +1,6 @@
 const winston = require("winston");
-const { AWS_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require("./env.config");
-require("winston-cloudwatch");
+// const { AWS_LOCATION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require("./env.config");
+// require("winston-cloudwatch");
 const logger = winston.createLogger({
   transports: [
     new winston.transports.Console({ level: "info" }),
@@ -24,23 +24,22 @@ const logger = winston.createLogger({
   ),
 });
 
+// const loggerTest =winston.createLogger({
+//   transports: [
+//     new winston.transports.Console(),
+//     new winston.transports.CloudWatch({
+//       logGroupName: 'testing-mern',
+//       logStreamName: 'backend-logs',
+//       awsRegion: AWS_LOCATION,
+//       awsAccessKeyId: AWS_ACCESS_KEY_ID,
+//       awsSecretKey: AWS_SECRET_ACCESS_KEY,
+//       messageFormatter: ({ time, name, levelName, request_id, message }) => {return `${time} - ${name} - ${levelName} - ${request_id} - ${message}`},
+//       onError: (err) => {
+//         console.error('Error sending logs to CloudWatch:', err);
+//       }
+//     })
+//   ],
+//   exitOnError: false
+// });
 
-const loggerTest =winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.CloudWatch({
-      logGroupName: 'testing-mern',
-      logStreamName: 'backend-logs',
-      awsRegion: AWS_LOCATION,
-      awsAccessKeyId: AWS_ACCESS_KEY_ID,
-      awsSecretKey: AWS_SECRET_ACCESS_KEY,
-      messageFormatter: ({ time, name, levelName, request_id, message }) => {return `${time} - ${name} - ${levelName} - ${request_id} - ${message}`},
-      onError: (err) => {
-        console.error('Error sending logs to CloudWatch:', err);
-      }
-    })
-  ],
-  exitOnError: false
-});
-
-module.exports = { loggerTest,logger };
+module.exports = { logger };
