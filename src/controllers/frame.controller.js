@@ -176,7 +176,7 @@ class FrameController {
           }
         } else {
           const sceneUpdateTime = await Scene.findByIdAndUpdate(
-            frameRegenerated.scene,
+            isFrameExist.scene,
             { updatedDate: new Date().toISOString() }
           );
 
