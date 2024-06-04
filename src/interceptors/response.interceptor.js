@@ -13,7 +13,6 @@ class ResponseInterceptor {
     clearCookie = false,
   }) {
     if (success_code) {
-      // console.log(data);
       if (clearCookie && cookieKey) {
         return this.#res
           .status(success_code)

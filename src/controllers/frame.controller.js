@@ -90,7 +90,6 @@ class FrameController {
             isFrameExist.framesUrl.length + 1
           }.jpeg`
         );
-        console.log(responAws, "aws res");
         const frameRegenerated = await Frame.findByIdAndUpdate(
           request.frame_id,
           {

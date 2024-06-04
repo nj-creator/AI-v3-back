@@ -11,6 +11,8 @@ const { projectRoute } = require("./src/routes/project.route");
 const { sceneRoute } = require("./src/routes/scene.route");
 const { frameRoute } = require("./src/routes/frame.route");
 const { io, app, server } = require("./src/config/server.config");
+const { trialRoute } = require("./src/routes/checkTrial.route");
+const subscriptionRoutes = require("./src/routes/subscription.routes");
 
 class App {
   constructor() {
@@ -44,6 +46,8 @@ class App {
     app.use("/api/project", projectRoute);
     app.use("/api/scene", sceneRoute);
     app.use("/api/frame", frameRoute);
+    app.use("/api/checkTrial",trialRoute);
+    app.use("/api/subscription",subscriptionRoutes);
   }
 
   startServer() {

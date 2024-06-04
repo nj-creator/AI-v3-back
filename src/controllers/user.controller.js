@@ -2,6 +2,7 @@ const { AUTH_KEY, cookieOptions } = require("../config/env.config");
 const { logger } = require("../config/logger.config");
 const ResponseInterceptor = require("../interceptors/response.interceptor");
 const { User } = require("../models/user.model");
+const { CreateCustomer } = require("./stripe.controller");
 
 class UserController {
   static async descopeFunction(req, res) {
@@ -23,6 +24,7 @@ class UserController {
           cookieOptions
         );
       } else {
+        const StripeCustomerId = await CreateCustomer(email, name);
         const data = await User.create({
           name,
           email,
@@ -30,6 +32,7 @@ class UserController {
           createdDate: new Date().toISOString(),
           generatedFrames: 0,
           regeneratedFrames: 0,
+          stripeCustomerId:StripeCustomerId
         });
 
         logger.info(data);
